@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CameraPage {
 
+  myPhoto: string = '../../assets/imgs/logo.png'
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -22,4 +24,11 @@ export class CameraPage {
     console.log('ionViewDidLoad CameraPage');
   }
 
+  choosePhoto () {
+    alert('Choose Photo')
+  }
+
+  saveImage () {
+    alert('Save Image')
+  }
 }

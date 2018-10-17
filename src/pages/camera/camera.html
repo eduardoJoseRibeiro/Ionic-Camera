@@ -5,8 +5,10 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Camera</ion-title>
   </ion-navbar>
 
@@ -14,5 +16,12 @@
 
 
 <ion-content padding>
-
+  <h3>Camera</h3>
+  <button ion-button (click)="choosePhoto()">
+    Enviar Foto
+  </button>
+  <img [src]="myPhoto">
+  <button ion-button (click)="saveImage()">
+    Salvar Imagem
+  </button>
 </ion-content>
