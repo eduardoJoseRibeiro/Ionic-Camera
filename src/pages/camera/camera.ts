@@ -41,13 +41,13 @@ export class CameraPage {
         {
           text: 'Tirar Foto',
           handler: () => {
-            this.takePhoto()
+            this.takePhoto(this.camera.PictureSourceType.CAMERA, this.camera.MediaType.PICTURE)
           }
         },
         {
           text: 'Selecione uma Foto',
           handler: () => {
-            this.takePhoto()
+            this.takePhoto(this.camera.PictureSourceType.PHOTOLIBRARY, this.camera.MediaType.PICTURE)
           }
         },
         {
@@ -64,11 +64,11 @@ export class CameraPage {
     alert('Save Image')
   }
 
-  private takePhoto () {
+  private takePhoto (sourceType: number = 1, mediaType: number = 0) {
     const options: CameraOptions = {
       quality: 100,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.CAMERA,
+      mediaType,
+      sourceType,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG
     }
