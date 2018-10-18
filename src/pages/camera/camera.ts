@@ -9,6 +9,8 @@ import {
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FilePath } from '@ionic-native/file-path';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { CameraListPage } from '../camera-list/camera-list';
 
 /**
  * Generated class for the CameraPage page.
@@ -32,7 +34,21 @@ export class CameraPage {
     private actionSheet: ActionSheetController,
     private camera: Camera,
     private filePath: FilePath,
-    private platform: Platform) {
+    private platform: Platform,
+    private sqlite: SQLite
+  ) {
+  }
+
+  ngOnInit () {
+    this.sqlite.create({
+      name: 'data.db',
+      location: 'default',
+    })
+      .then((db: SQLiteObject) => {
+        return db.executeSql('CREATE TABLE photos(url varchar(250))')
+          .then(() => console.log('Tabela Criada'))
+          .catch((err) => console.log(err))
+      })
   }
 
   ionViewDidLoad() {
@@ -66,7 +82,15 @@ export class CameraPage {
   }
 
   saveImage () {
-    alert('Save Image')
+    this.sqlite.create({
+      name: 'data.bd',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+        return db.executeSql(`INSERT INTO photos (url) VALUES (${this.myPhoto})`)
+      })
+      .then(() => this.navCtrl.push(CameraListPage))
+      .catch(err => console.log(err))
   }
 
   private takePhoto (sourceType: number = 1, mediaType: number = 0) {
