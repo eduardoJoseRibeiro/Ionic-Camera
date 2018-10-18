@@ -3,10 +3,13 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ActionSheetController
+  ActionSheetController,
+  Platform
 } from 'ionic-angular';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FilePath } from '@ionic-native/file-path';
+
 /**
  * Generated class for the CameraPage page.
  *
@@ -27,7 +30,9 @@ export class CameraPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private actionSheet: ActionSheetController,
-    private camera: Camera) {
+    private camera: Camera,
+    private filePath: FilePath,
+    private platform: Platform) {
   }
 
   ionViewDidLoad() {
@@ -75,7 +80,17 @@ export class CameraPage {
 
     this.camera.getPicture(options)
       .then(img => {
-        this.myPhoto = img
+        if (sourceType === 0 && this.platform.is('android')) {
+          this.filePath.resolveNativePath(img)
+            .then((filePath) => {
+              this.myPhoto = filePath
+            })
+            .catch(err => {
+              console.error(err)
+            })
+        } else {
+          this.myPhoto = img
+        }
       })
       .catch(err => {
         console.error(err)
