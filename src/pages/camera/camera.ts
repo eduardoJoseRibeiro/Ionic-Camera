@@ -6,6 +6,7 @@ import {
   ActionSheetController
 } from 'ionic-angular';
 
+import { Camera, CameraOptions } from '@ionic-native/camera';
 /**
  * Generated class for the CameraPage page.
  *
@@ -20,12 +21,13 @@ import {
 })
 export class CameraPage {
 
-  myPhoto: string = '../../assets/imgs/logo.png'
+  myPhoto: string; // = '../../assets/imgs/logo.png'
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private actionSheet: ActionSheetController) {
+    private actionSheet: ActionSheetController,
+    private camera: Camera) {
   }
 
   ionViewDidLoad() {
@@ -63,6 +65,20 @@ export class CameraPage {
   }
 
   private takePhoto () {
+    const options: CameraOptions = {
+      quality: 100,
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG
+    }
 
+    this.camera.getPicture(options)
+      .then(img => {
+        this.myPhoto = img
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 }
